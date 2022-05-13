@@ -16,7 +16,7 @@ function App() {
   };
   return (
     <div id="app">
-        <h1>ツイート内容登録</h1>
+        <h3>ツイート内容登録</h3>
       <form onSubmit={event => handleSubmit(event)}>
         <label htmlFor="tweet">Name: </label>
         <br/>
@@ -28,6 +28,7 @@ function App() {
       <Account />
       <Message />
       <GetAllTweet />
+      <GetAllAccount />
     </div>
   );
   }
@@ -49,7 +50,7 @@ function App() {
     };
     return (
       <form onSubmit={event => handleSubmit(event)}>
-        <h1>アカウント登録</h1>
+        <h3>アカウント登録</h3>
         <label htmlFor="account">Name: </label>
         <br/>
         メールアドレス：
@@ -85,7 +86,7 @@ function App() {
       };
       return (
         <form onSubmit={event => handleSubmit(event)}>
-          <h1>メッセージ登録</h1>
+          <h3>メッセージ登録</h3>
           <label htmlFor="message">Name: </label>
           <br/>
           タイトル：
@@ -116,8 +117,29 @@ function App() {
     };
       return (
         <div>
-          <h1>現在のツイートを取得</h1>
+          <h3>現在のツイートを取得</h3>
           <button onClick={()=>clicked()}>現在のツイートを取得</button>
+          <br />
+        </div>
+      );
+  }
+  function GetAllAccount() {
+    const clicked = () => {
+      axios.defaults.baseURL = 'http://localhost:8080';
+      axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      axios.get('http://localhost:8080/tweet/all')
+      .then(response => {
+        console.log(response.data);
+        // response body.
+      }).catch(err => {
+        console.log('err:', err);
+      });
+    };
+      return (
+        <div>
+          <h3>現在のアカウント情報を取得</h3>
+          <button onClick={()=>clicked()}>現在のアカウント情報を取得</button>
           <br />
         </div>
       );
