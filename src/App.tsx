@@ -26,6 +26,8 @@ function App() {
         <input type="submit" defaultValue={"Submit"}/>
       </form>
       <Account />
+      <AccountSearch />
+      <AccountDelete />
       <Message />
       <GetAllTweet />
       <GetAllAccount />
@@ -69,6 +71,62 @@ function App() {
       </form>
     );
     }
+    function AccountSearch() {
+      const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        axios.defaults.baseURL = 'http://localhost:8080';
+        axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+        console.log(data.get("accountName"));
+        axios.get('http://localhost:8080/account/search?accountName='+ data.get("accountName"))
+        .then(response => {
+          console.log(response.data);
+          // response body.
+        }).catch(err => {
+          console.log('err:', err);
+        });
+      };
+      return (
+        <form onSubmit={event => handleSubmit(event)}>
+          <h3>アカウント検索</h3>
+          <label htmlFor="account">Name: </label>
+          <br/>
+          アカウント名：
+          <input type="text" id="account" name="accountName"/>
+          <br/>
+          <input type="submit" defaultValue={"Submit"}/>
+        </form>
+      );
+      }
+      function AccountDelete() {
+        const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          axios.defaults.baseURL = 'http://localhost:8080';
+          axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+          axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+          console.log(data.get("id"));
+          axios.get('http://localhost:8080/account/delete?id='+data.get("id"))
+          .then(response => {
+            console.log(response.data);
+            // response body.
+          }).catch(err => {
+            console.log('err:', err);
+          });
+        };
+        return (
+          <form onSubmit={event => handleSubmit(event)}>
+            <h3>アカウントIDからデータを削除</h3>
+            <label htmlFor="account">Name: </label>
+            <br/>
+            アカウント名：
+            <input type="text" id="account" name="id"/>
+            <br/>
+            <input type="submit" defaultValue={"Submit"}/>
+          </form>
+        );
+      }
     function Message() {
       const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
